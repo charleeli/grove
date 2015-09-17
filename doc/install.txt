@@ -1,0 +1,2 @@
+1.安装glog-0.3.3
+    ./configure && make && make install
