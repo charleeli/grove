@@ -1,11 +1,11 @@
 {
-    "RedisAdmin": {
+    "UserRedis": {
         "host": "127.0.0.1",
         "port": 6381,
         "timeout":500
     },
     
-    "UserDb": {
+    "UserMysql": {
         "host": "10.104.14.214",
         "port": 3728,
         "user": "miugroup",
