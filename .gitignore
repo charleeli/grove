@@ -12,7 +12,6 @@ core*
 common
 *.pyc
 *.md5
-*.tar.gz
 *.pid
 *.a
 .cproject
