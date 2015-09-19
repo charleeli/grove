@@ -1,0 +1,14 @@
+syntax="proto3"
+import "Head.proto";
+package Grove;
+
+//回声测试 command = Echo
+message EchoReq
+{
+	optional string foo  = 1;
+}
+
+message EchoRsp
+{
+	optional string foo  = 1;
+}

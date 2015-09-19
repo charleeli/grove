@@ -30,7 +30,7 @@ message ReqHead
 
 message RspHead
 {
-	optional sint32 errcode = 1;    // 服务返回的调用结果
+	optional ErrCode errcode = 1;   // 服务返回的调用结果
 	optional sint32 errmsg = 2;     // 服务返回的错误提示语
     optional string command = 3;    // 服务返回的请求命令
 	optional bytes  ciphertext = 4; // 密文返回的内容，pb数据
