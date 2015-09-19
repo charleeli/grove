@@ -1,3 +1,6 @@
+#ifndef _JSONHELPER_H_
+#define _JSONHELPER_H_
+
 #include "rapidjson/filereadstream.h"
 #include "rapidjson/document.h"
 #include "assert.h"
@@ -46,6 +49,8 @@ private:
         json_ = NULL;
     }
 };
+
+#endif
 
 /*
 int main()
