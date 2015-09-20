@@ -36,7 +36,8 @@ LIB  		:= 	-lprotobuf \
 				-lpthread \
 				-lfcgi \
 				-lhiredis\
-				$(LIB)
+				$(LIB)\
+				-L${ROOTPATH}/fast-cgi/proto -lproto
 #-------------------------------------------------------------------------------
 PLATFORM := $(strip $(shell echo `uname -m`))
 ifneq ($(MFLAGS),64)
@@ -64,9 +65,9 @@ endif
 PRO2CPP     := ${BASEPATH}/bin/protoc
 
 PRO_REMOTE_SRC += 
-PRO_REMOTE_H   := $(foreach src, $(PRO_REMOTE_SRC), $(basename $(notdir $(src))).pb.h)
-PRO_REMOTE_CPP := $(foreach src, $(PRO_REMOTE_SRC), $(basename $(notdir $(src))).pb.cc)
-PRO_REMOTE_OBJ := $(foreach src, $(PRO_REMOTE_SRC), $(basename $(notdir $(src))).pb.o)
+PRO_REMOTE_H   := $(foreach src, $(PRO_REMOTE_SRC), $(basename $(src)).pb.h)
+PRO_REMOTE_CPP := $(foreach src, $(PRO_REMOTE_SRC), $(basename $(src)).pb.cc)
+PRO_REMOTE_OBJ := $(foreach src, $(PRO_REMOTE_SRC), $(basename $(src)).pb.o)
 
 LOCAL_SRC += $(sort $(wildcard *.cpp *.c) $(PRO_REMOTE_CPP))
 LOCAL_OBJ += $(patsubst %.cpp,%.o, $(patsubst %.cc,%.o, $(patsubst %.c,%.o, $(LOCAL_SRC))))
@@ -81,11 +82,13 @@ ifneq ($(PRO_REMOTE_SRC),)
 $(PRO_REMOTE_H) $(PRO_REMOTE_CPP) : $(PRO_REMOTE_SRC)
 	@echo "protoc ${P2CPP_FLAG} "
 	rm -vf $(PRO_REMOTE_H) $(PRO_REMOTE_CPP) $(PRO_REMOTE_OBJ)
-	$(PRO2CPP) ${P2CPP_FLAG} --proto_path=$(dir $(PRO_REMOTE_SRC)) --cpp_out=./ $(PRO_REMOTE_SRC)
+	$(PRO2CPP) ${P2CPP_FLAG} --proto_path=$(dir $(PRO_REMOTE_SRC)) --cpp_out=../proto $(PRO_REMOTE_SRC)
+	cd ../proto && $(CXX) -m$(MFLAGS) $(CFLAGS) -c *.cc && ar crv libproto.a *.o 
 endif
 
 clean:
 	rm -f $(LOCAL_OBJ) $(TARGET) *~ .pb.* *.pb.* *.64.*
+	cd ../proto && rm *~ .pb.* *.pb.* *.a
 
 cleanall:
 	rm -f $(LOCAL_OBJ) $(TARGET) $(PRO_REMOTE_H) $(PRO_REMOTE_CPP) *.d *.o
