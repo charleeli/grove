@@ -24,20 +24,21 @@ LIB_64  	:=
 #-------------------------------------------------------------------------------
 INCLUDE     += 	-I. \
                 -I${BASEPATH} \
-				-I${BASEPATH}/codec \
-				-I${BASEPATH}/libstore \
-				-I${BASEPATH}/pattern \
-				-I${BASEPATH}/pbjson \
-				-I${BASEPATH}/rapidjson\
-				-I${ROOTPATH}/fast-cgi/dao\
-				-I${ROOTPATH}/fast-cgi/proto
+                -I${BASEPATH}/codec \
+                -I${BASEPATH}/libstore \
+                -I${BASEPATH}/pattern \
+                -I${BASEPATH}/pbjson \
+                -I${BASEPATH}/rapidjson\
+                -I${ROOTPATH}/fast-cgi/dao\
+                -I${ROOTPATH}/fast-cgi/proto
 
 LIB  		:= 	-lprotobuf \
-				-lpthread \
-				-lfcgi \
-				-lhiredis\
-				$(LIB)\
-				-L${ROOTPATH}/fast-cgi/proto -lproto
+                -lpthread \
+                -lfcgi \
+                -lhiredis\
+                -lglog\
+                $(LIB)\
+                -L${ROOTPATH}/fast-cgi/proto -lproto
 #-------------------------------------------------------------------------------
 PLATFORM := $(strip $(shell echo `uname -m`))
 ifneq ($(MFLAGS),64)
@@ -69,15 +70,24 @@ PRO_REMOTE_H   := $(foreach src, $(PRO_REMOTE_SRC), $(basename $(src)).pb.h)
 PRO_REMOTE_CPP := $(foreach src, $(PRO_REMOTE_SRC), $(basename $(src)).pb.cc)
 PRO_REMOTE_OBJ := $(foreach src, $(PRO_REMOTE_SRC), $(basename $(src)).pb.o)
 
-LOCAL_SRC += $(sort $(wildcard *.cpp *.c) $(PRO_REMOTE_CPP))
+LOCAL_SRC += $(sort $(wildcard *.cpp *.cc *.c) $(PRO_REMOTE_CPP))
 LOCAL_OBJ += $(patsubst %.cpp,%.o, $(patsubst %.cc,%.o, $(patsubst %.c,%.o, $(LOCAL_SRC))))
 DEP_FILE  := $(foreach obj, $(LOCAL_OBJ), $(dir $(obj))$(basename $(notdir $(obj))).d)
 #-------------------------------------------------------------------------------
 all : $(PRO_REMOTE_H) $(PRO_REMOTE_CPP) $(LOCAL_OBJ) $(TARGET)
 
-$(TARGET) : $(LOCAL_OBJ) $(PRO_REMOTE_OBJ)
+$(filter %.a,$(TARGET)) : $(LOCAL_OBJ) $(PRO_REMOTE_OBJ)
+	ar r $@ $(LOCAL_OBJ) $(PRO_REMOTE_OBJ)
+
+$(filter %.so,$(TARGET)) : $(LOCAL_OBJ) $(PRO_REMOTE_OBJ) 
 	$(CXX) -m$(MFLAGS) $(CFLAGS) -shared -o $@ $^ $(INCLUDE) $(LIB)
 
+$(filter-out %.so %.a,$(TARGET)) : $(LOCAL_OBJ) $(PRO_REMOTE_OBJ)
+	$(CXX) -m$(MFLAGS) $(CFLAGS) -o $@ $^ $(INCLUDE) $(LIB)
+
+$(filter-out %.so %.a %.y,$(TARGETS)) : % : %.$(MFLAGS).o
+	$(CXX) -m$(MFLAGS) $(CFLAGS) -o $@ $^ $(INCLUDE) $(LIB)
+#-------------------------------------------------------------------------------
 ifneq ($(PRO_REMOTE_SRC),)
 $(PRO_REMOTE_H) $(PRO_REMOTE_CPP) : $(PRO_REMOTE_SRC)
 	@echo "protoc ${P2CPP_FLAG} "
@@ -87,7 +97,7 @@ $(PRO_REMOTE_H) $(PRO_REMOTE_CPP) : $(PRO_REMOTE_SRC)
 endif
 
 clean:
-	rm -f $(LOCAL_OBJ) $(TARGET) *~ .pb.* *.pb.* *.64.*
+	rm -f $(LOCAL_OBJ) $(TARGET) *~ .pb.* *.pb.* *.64.* *.d
 	cd ../proto && rm *~ .pb.* *.pb.* *.a
 
 cleanall:

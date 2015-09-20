@@ -3,7 +3,7 @@
 
 #include <unistd.h>
 #include <fcgi_stdio.h>
-#include "pbjson.hpp"
+#include "pbjson.cpp"
 #include "except_proc.h"
 #include "Head.pb.h"
 #include "Command.h"

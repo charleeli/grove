@@ -5,10 +5,6 @@
 #include <error.h>
 #include <stdio.h>   
 #include <cassert>
-#include <iostream>
-#include <vector>
-#include <list>
-#include <deque>
 #include <time.h>
 #include "GLogHelper.h"
 #include "CmdHandler.h"
@@ -34,7 +30,7 @@ int DestroyModuleList()
 int main(int argc, char ** argv)
 {
     //初始化日志
-    GLogHelper gh(SERVER_NAME,"/usr/local/grove/log/");
+    GLogHelper gh(SERVER_NAME,"./log/");
     //注册命令
     RegisterModuleList();
     LOG(INFO)<<"FastCGI running!";
