@@ -3,37 +3,37 @@ package Grove;
 
 enum ErrCode
 {
-    ERR_SUCCESS             = 0;   //成功
-	ERR_EXCEPTION           = -1;  //出现异常
-    ERR_UID_UNLAW           = 1000;//uid非法
-    ERR_NO_COMMAND          = 1001;//没有相关的处理命令
-    ERR_PARSE_FAIL          = 1002;//解析错误
-	ERR_UID_NOT_EXIST       = 1003;//用户不存在  
-	ERR_STORE_INIT          = 1004;//数据库初始化失败
-	ERR_STORE_OPERATE       = 1005;//数据库操作失败
-	ERR_CHECKCODE_NOT_MATCH = 1006;//校验码不匹配
-    ERR_WRONG_TOKEN         = 1007;//TOKEN错误
-    ERR_QUERY_TOO_BUSY      = 1008;//请求过于频繁
-    ERR_MISS_PARAMETER      = 1009;//缺少参数
-	ERR_NOT_SYNC            = 1010;//不同步
+    ERR_SUCCESS             = 0;    // 成功
+    ERR_EXCEPTION           = -1;   // 出现异常
+    ERR_UID_UNLAW           = 1000; // uid非法
+    ERR_NO_COMMAND          = 1001; // 没有相关的处理命令
+    ERR_PARSE_FAIL          = 1002; // 解析错误
+    ERR_UID_NOT_EXIST       = 1003; // 用户不存在  
+    ERR_STORE_INIT          = 1004; // 数据库初始化失败
+    ERR_STORE_OPERATE       = 1005; // 数据库操作失败
+    ERR_CHECKCODE_NOT_MATCH = 1006; // 校验码不匹配
+    ERR_WRONG_TOKEN         = 1007; // TOKEN错误
+    ERR_QUERY_TOO_BUSY      = 1008; // 请求过于频繁
+    ERR_MISS_PARAMETER      = 1009; // 缺少参数
+    ERR_NOT_SYNC            = 1010; // 时间不同步
 }
 
 message ReqHead
 {
     optional string uid  = 1;       // 用户UID
-	optional string token = 2;      // 用户请求凭据，2小时更换一次
-	optional uint32 platform = 3;   // 客户端平台
+    optional string token = 2;      // 用户请求凭据，2小时更换一次
+    optional uint32 platform = 3;   // 客户端平台
     optional string command = 4;    // 用户请求命令
-	optional bytes  ciphertext = 5; // pb数据
-	optional string plaintext = 6;  // json数据
+    optional bytes  ciphertext = 5; // pb数据
+    optional string plaintext = 6;  // json数据
 }
 
 message RspHead
 {
-	optional ErrCode errcode = 1;   // 服务返回的调用结果
-	optional sint32 errmsg = 2;     // 服务返回的错误提示语
+    optional sint32 errcode = 1;   // 服务返回的调用结果
+    optional string errmsg = 2;     // 服务返回的错误提示语
     optional string command = 3;    // 服务返回的请求命令
-	optional bytes  ciphertext = 4; // 密文返回的内容，pb数据
-	optional string plaintext = 5;  // 明文返回的数据，json数据
+    optional bytes  ciphertext = 4; // 密文返回的内容，pb数据
+    optional string plaintext = 5;  // 明文返回的数据，json数据
 }
 

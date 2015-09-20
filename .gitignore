@@ -18,3 +18,5 @@ common
 .project
 .settings/*
 .gitignore
+*.pb.cc
+*.pb.h

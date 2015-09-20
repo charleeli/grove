@@ -5,8 +5,8 @@
 #include <fcgi_stdio.h>
 #include "pbjson.hpp"
 #include "except_proc.h"
-#include "Head.ph.h"
-#include "ICommand.h"
+#include "Head.pb.h"
+#include "Command.h"
 
 using google::protobuf::Message;
 using namespace pbjson;
@@ -19,7 +19,7 @@ class CmdHandler
 {
 public:
     //本FastCGI的命令列表
-    map<string, ICommand*>  cmds_;  
+    map<string, Command*>  cmds_;  
     //接收到的信息            
     char    buffer_[FastCGI_MAX_LENGTH];        
 	
@@ -48,7 +48,7 @@ public:
     //销毁命令
     void DestroyModuleList() 
     {
-        map<string, ICommand*>::iterator itm = cmds_.begin();
+        map<string, Command*>::iterator itm = cmds_.begin();
         for (; itm != cmds_.end(); itm++)
         {
             if (itm->second != NULL)
@@ -63,13 +63,13 @@ public:
     
     //注册命令
     template<class T>
-    ICommand* RegisterModule(const string& name)
+    Command* RegisterModule(const string& name)
     {
         if (cmds_.find(name) == cmds_.end())
         {
             T* t = new T;
             t->initialize();
-            cmds_[name] = (ICommand*)t;
+            cmds_[name] = (Command*)t;
         }
         return cmds_[name];
     }
