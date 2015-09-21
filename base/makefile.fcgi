@@ -97,11 +97,11 @@ $(PRO_REMOTE_H) $(PRO_REMOTE_CPP) : $(PRO_REMOTE_SRC)
 endif
 
 clean:
-	rm -f $(LOCAL_OBJ) $(TARGET) *~ .pb.* *.pb.* *.64.* *.d
-	cd ../proto && rm *~ .pb.* *.pb.* *.a
+	rm -vf $(LOCAL_OBJ) $(TARGET) *~ .pb.* *.pb.* *.64.* *.d
+	cd ../proto && rm -vf *~ .pb.* *.pb.* *.a
 
 cleanall:
-	rm -f $(LOCAL_OBJ) $(TARGET) $(PRO_REMOTE_H) $(PRO_REMOTE_CPP) *.d *.o
+	rm -vf $(LOCAL_OBJ) $(TARGET) $(PRO_REMOTE_H) $(PRO_REMOTE_CPP) *.d *.o
 
 ifneq ($(DEP_FILE),)
     -include $(DEP_FILE)
