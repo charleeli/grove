@@ -47,6 +47,7 @@ public:
             if (_pRedis)
             {
                 redisFree(_pRedis);
+                _pRedis = NULL;
             }
             return REDIS_INIT;
         }

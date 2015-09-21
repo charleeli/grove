@@ -34,11 +34,12 @@ public:
     {
     }
 
-    MysqlWrapper(const string& sHost, 
+    MysqlWrapper(const string& sHost,
+                          int  port, 
                 const string& sUser, 
                 const string& sPasswd, 
-                const string& sDatabase, 
-                int port = 3306) 
+                const string& sDatabase 
+                ) 
     : _pstMql(nullptr), 
     _host(sHost), 
     _user(sUser), 

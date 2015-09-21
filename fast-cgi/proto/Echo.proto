@@ -23,3 +23,15 @@ message EchoRedisRsp
 {
     optional string foo  = 1;
 }
+
+//Mysql回声测试 command = EchoMysql
+message EchoMysqlReq
+{
+    optional string foo  = 1;
+}
+
+message EchoMysqlRsp
+{
+    optional string foo  = 1;
+}
+

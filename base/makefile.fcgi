@@ -39,6 +39,15 @@ LIB  		:= 	-lprotobuf \
                 -lglog\
                 $(LIB)\
                 -L${ROOTPATH}/fast-cgi/proto -lproto
+                
+MYSQL_FILE  := /usr/local/include/mysql/mysql.h
+ifeq ($(MYSQL_FILE), $(wildcard $(MYSQL_FILE)))
+    INCLUDE     += -I/usr/local/include/mysql
+    LIB  		+= -L/usr/local/lib/mysql/ -lmysqlclient -lz -ldl
+else
+    INCLUDE     += -I/usr/include/mysql
+    LIB  		+= -L/usr/lib64/mysql/ -lmysqlclient -lz -ldl
+endif
 #-------------------------------------------------------------------------------
 PLATFORM := $(strip $(shell echo `uname -m`))
 ifneq ($(MFLAGS),64)
