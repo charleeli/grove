@@ -11,11 +11,13 @@
 
 //包含命令处理头文件
 #include "Echo.h"
+#include "EchoRedis.h"
 
 //注册命令
 int RegisterModuleList()
 {
 	FastCGI_FRAME->RegisterModule<Echo>("Echo");
+	FastCGI_FRAME->RegisterModule<EchoRedis>("EchoRedis");
     
     return 0;
 }

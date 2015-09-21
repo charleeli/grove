@@ -12,3 +12,14 @@ message EchoRsp
 {
     optional string foo  = 1;
 }
+
+//Redis回声测试 command = EchoRedis
+message EchoRedisReq
+{
+    optional string foo  = 1;
+}
+
+message EchoRedisRsp
+{
+    optional string foo  = 1;
+}

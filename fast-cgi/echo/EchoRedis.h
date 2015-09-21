@@ -1,26 +1,34 @@
-#ifndef _ECHO_H_
-#define _ECHO_H_
+#ifndef _ECHOREDIS_H_
+#define _ECHOREDIS_H_
 
 #include "Command.h"
-#include "Echo.pb.h"
+#include "EchoWrapper.h"
 
 using namespace pbjson;
 
-class Echo : public Command
+class EchoRedis : public Command
 {
 private:
     bool is_plaintext;//明文传输
     string uid;
     
+    EchoWrapper* pEcho;
+    
 public:
     virtual void initialize()
     {
         Command::initialize();
+        pEcho = new EchoWrapper();
     }
     
     virtual void destroy()
     {
         Command::destroy();
+        if(pEcho)
+        {
+            delete pEcho;
+            pEcho = NULL;
+        }
     }
     
     virtual int parse(const ReqHead& head)
@@ -32,8 +40,8 @@ public:
     
     virtual int handle(const string& in,string& out)
     {
-        EchoReq reqBody;
-        EchoRsp rspBody;
+        EchoRedisReq reqBody;
+        EchoRedisRsp rspBody;
         
         if(is_plaintext)
 		{
@@ -49,7 +57,11 @@ public:
 		    }
 		}
         
-        rspBody.set_foo(reqBody.foo());
+        pEcho->SetValue("foo",reqBody.foo());
+        
+        string value;
+        pEcho->GetValue("foo",value);
+        rspBody.set_foo(value);
     
         if(is_plaintext)
 		{
