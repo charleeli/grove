@@ -2,7 +2,7 @@
 #define _ECHOMYSQL_H_
 
 #include "Command.h"
-#include "EchoWrapper.h"
+#include "EchoDao.h"
 
 using namespace pbjson;
 
@@ -12,22 +12,22 @@ private:
     bool is_plaintext;//明文传输
     string uid;
     
-    EchoWrapper* pEcho;
+    EchoDao* pEchoDao;
     
 public:
     virtual void initialize()
     {
         Command::initialize();
-        pEcho = new EchoWrapper();
+        pEchoDao = new EchoDao();
     }
     
     virtual void destroy()
     {
         Command::destroy();
-        if(pEcho)
+        if(pEchoDao)
         {
-            delete pEcho;
-            pEcho = NULL;
+            delete pEchoDao;
+            pEchoDao = NULL;
         }
     }
     
@@ -57,10 +57,10 @@ public:
 		    }
 		}
         
-        pEcho->SetValueToMysql("foo",reqBody);
+        pEchoDao->SetValueToMysql("foo",reqBody);
         
         EchoMysqlReq req;
-        pEcho->GetValueFromMysql("foo",req);
+        pEchoDao->GetValueFromMysql("foo",req);
         rspBody.set_foo(req.foo());
     
         if(is_plaintext)

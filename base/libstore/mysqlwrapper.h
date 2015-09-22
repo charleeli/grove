@@ -24,29 +24,28 @@ private:
     string _user;
     string _password;
     string _database;
+    string _table;
     string _charset;
     int _port;
     int _flag;
     bool _bConnected;
     string _sLastSql;   
 public:
-    MysqlWrapper(): _pstMql(nullptr)
-    {
-    }
-
     MysqlWrapper(const string& sHost,
                           int  port, 
                 const string& sUser, 
                 const string& sPasswd, 
-                const string& sDatabase 
+                const string& sDatabase ,
+                const string& sTable
                 ) 
     : _pstMql(nullptr), 
     _host(sHost), 
     _user(sUser), 
     _password(sPasswd), 
-    _database(sDatabase)
+    _database(sDatabase),
+    _table(sTable)
     {
-        initialize(sHost, sUser, sPasswd, sDatabase, port);
+        initialize(sHost, sUser, sPasswd, sDatabase,sTable, port);
     }
 
     virtual ~MysqlWrapper()
@@ -58,6 +57,7 @@ public:
                     const string& sUser, 
                     const string& sPasswd,
                     const string& sDatabase, 
+                    const string& sTable, 
                     int port = 3306, 
                     const string &sCharSet = "", 
                     int iFlag = 0)
@@ -66,6 +66,7 @@ public:
         _user        = sUser;
         _password    = sPasswd;
         _database    = sDatabase;
+        _table       = sTable,
         _charset     = sCharSet;
         _port        = port;
         _flag        = 0;
@@ -109,6 +110,30 @@ public:
             return;
         }
         
+        //å¦‚æžœæ²¡æœ‰åˆ›å»º_tabaleè¡¨ï¼Œåˆ™åˆ›å»º
+        ostringstream osql;
+        osql << "CREATE TABLE IF NOT EXISTS " << _table 
+             << "("
+             << "ukey varchar(64) not null primary key, "
+             << "udata blob, "
+             << "ts TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"
+             << ")";
+        _sLastSql = osql.str();
+        int iRet = mysql_real_query(_pstMql, _sLastSql.c_str(), _sLastSql.length());
+        if(iRet != 0)
+        {
+            int iErrno = mysql_errno(_pstMql);
+            if (iErrno == 2013 || iErrno == 2006)
+            {
+                connect();  
+                iRet = mysql_real_query(_pstMql, _sLastSql.c_str(), _sLastSql.length());
+            }
+        }
+        if (iRet != 0)
+        {
+            return;
+        }
+        
         _bConnected = true;
     }
     
@@ -141,7 +166,7 @@ public:
     }
    
     template<class T>
-    int getProto(const string& key, T& t, const string& table)
+    int getProto(const string& key, T& t)
     {
         if(!_bConnected)
         {
@@ -149,7 +174,7 @@ public:
         }
         
         ostringstream osql;
-        osql << "SELECT udata FROM " <<  table << " WHERE ukey='" << key << "'";
+        osql << "SELECT udata FROM " <<  _table << " WHERE ukey='" << key << "'";
         _sLastSql = osql.str();
         int iRet = mysql_real_query(_pstMql, _sLastSql.c_str(), _sLastSql.length());
         if(iRet != 0)
@@ -185,7 +210,7 @@ public:
     }
     
     template<class T>
-    int getProto(const string& key, T* t, const string& table)
+    int getProto(const string& key, T* t)
     {
         if(!_bConnected)
         {
@@ -193,7 +218,7 @@ public:
         }
         
         ostringstream osql;
-        osql << "SELECT udata FROM " <<  table << " WHERE ukey='" << key << "'";
+        osql << "SELECT udata FROM " <<  _table << " WHERE ukey='" << key << "'";
         _sLastSql = osql.str();
         int iRet = mysql_real_query(_pstMql, _sLastSql.c_str(), _sLastSql.length());
         if(iRet != 0)
@@ -229,11 +254,11 @@ public:
     }
 
     template<class T>
-    int setProto(const string& key, const T& t, const string& table)
+    int setProto(const string& key, const T& t)
     {
         ostringstream osql;
         string data = escapeString(t.SerializeAsString());
-        osql << "REPLACE INTO " <<  table << "(ukey, udata) VALUE ('" << key << "', '" << data << "')";
+        osql << "REPLACE INTO " <<  _table << "(ukey, udata) VALUE ('" << key << "', '" << data << "')";
         
         if(!_bConnected)
         {
@@ -247,7 +272,7 @@ public:
             int iErrno = mysql_errno(_pstMql);
             if (iErrno == 2013 || iErrno == 2006)
             {
-                connect();  // ×Ô¶¯ÖØÐÂÁ¬½Ó
+                connect(); 
                 iRet = mysql_real_query(_pstMql, _sLastSql.c_str(), _sLastSql.length());
             }
         }
@@ -255,10 +280,10 @@ public:
         return iRet;
     }
 
-    int del(const string& key, const string& table)
+    int del(const string& key)
     {
         ostringstream osql;
-        osql << "DELETE FROM " <<  table << " WHERE ukey='" << key << "'";
+        osql << "DELETE FROM " <<  _table << " WHERE ukey='" << key << "'";
         if(!_bConnected)
         {
             connect();
@@ -279,7 +304,7 @@ public:
         return iRet;
     }
     
-    bool isKeyExist(const string& key, const string& table)
+    bool isKeyExist(const string& key)
     {
         if(!_bConnected)
         {
@@ -287,7 +312,7 @@ public:
         }
 
         ostringstream osql;
-        osql << "SELECT udata FROM " <<  table << " WHERE ukey='" << key << "'";
+        osql << "SELECT udata FROM " <<  _table << " WHERE ukey='" << key << "'";
         _sLastSql = osql.str();
         int iRet = mysql_real_query(_pstMql, _sLastSql.c_str(), _sLastSql.length());
         if(iRet != 0)

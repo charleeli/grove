@@ -10,7 +10,8 @@
         "port": 3728,
         "user":"miugroup",
         "password":"momoli",
-        "dbname":"dbase_user"
+        "dbname":"dbase_user",
+        "tablename":"t_user"
     }
 }
 

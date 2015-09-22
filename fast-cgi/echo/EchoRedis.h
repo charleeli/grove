@@ -2,7 +2,7 @@
 #define _ECHOREDIS_H_
 
 #include "Command.h"
-#include "EchoWrapper.h"
+#include "EchoDao.h"
 
 using namespace pbjson;
 
@@ -12,22 +12,22 @@ private:
     bool is_plaintext;//明文传输
     string uid;
     
-    EchoWrapper* pEcho;
+    EchoDao* pEchoDao;
     
 public:
     virtual void initialize()
     {
         Command::initialize();
-        pEcho = new EchoWrapper();
+        pEchoDao = new EchoDao();
     }
     
     virtual void destroy()
     {
         Command::destroy();
-        if(pEcho)
+        if(pEchoDao)
         {
-            delete pEcho;
-            pEcho = NULL;
+            delete pEchoDao;
+            pEchoDao = NULL;
         }
     }
     
@@ -57,10 +57,10 @@ public:
 		    }
 		}
         
-        pEcho->SetValue("foo",reqBody.foo());
+        pEchoDao->SetValue("foo",reqBody.foo());
         
         string value;
-        pEcho->GetValue("foo",value);
+        pEchoDao->GetValue("foo",value);
         rspBody.set_foo(value);
     
         if(is_plaintext)

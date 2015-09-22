@@ -1,5 +1,5 @@
-#ifndef _ECHOWRAPPER_H_
-#define _ECHOWRAPPER_H_
+#ifndef _ECHODAO_H_
+#define _ECHODAO_H_
 
 #include "rediswrapper.h"
 #include "mysqlwrapper.h"
@@ -10,14 +10,14 @@ using google::protobuf::Message;
 using namespace Grove;
 using namespace std;
 
-class EchoWrapper 
+class EchoDao 
 {
 private:
     RedisWrapper*   pEchoRedis;
     MysqlWrapper*   pEchoMysql;
     
 public:
-    EchoWrapper()
+    EchoDao()
     {
         JsonHelper jh("../dao/EchoModule.json");
         string  host_    = jh.Root["EchoRedis"]["host"].GetString();
@@ -32,13 +32,14 @@ public:
         string  user    = jh.Root["EchoMysql"]["user"].GetString();
         string  password= jh.Root["EchoMysql"]["password"].GetString();
         string  dbname  = jh.Root["EchoMysql"]["dbname"].GetString();
+        string  tablename= jh.Root["EchoMysql"]["tablename"].GetString();
         
-        pEchoMysql = new MysqlWrapper(host, port,user, password, dbname);
+        pEchoMysql = new MysqlWrapper(host, port,user, password, dbname,tablename);
         LOG(INFO)<<"EchoMysql host:"<<host<<" port:"<<port;
         LOG(INFO)<<"EchoMysql user:"<<user<<" password:"<<password<<" dbname:"<<dbname;
     }
 
-    ~EchoWrapper()
+    ~EchoDao()
     {
         if (pEchoRedis) {
            delete pEchoRedis;
@@ -64,13 +65,13 @@ public:
     template<class T>
     int SetValueToMysql(const string& key, const T& t)
     {
-        return pEchoMysql->setProto(key, t, "t_user");
+        return pEchoMysql->setProto(key, t);
     }
     
     template<class T>
     int GetValueFromMysql(const string& key, T& t)
     {
-        return pEchoMysql->getProto(key, t, "t_user");
+        return pEchoMysql->getProto(key, t);
     }
 };
 
