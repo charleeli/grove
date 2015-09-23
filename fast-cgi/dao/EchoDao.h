@@ -3,6 +3,7 @@
 
 #include "rediswrapper.h"
 #include "mysqlwrapper.h"
+#include "storewrapper.h"
 #include "JsonHelper.h"
 #include "Echo.pb.h"
 
@@ -15,11 +16,12 @@ class EchoDao
 private:
     RedisWrapper*   pEchoRedis;
     MysqlWrapper*   pEchoMysql;
+    StoreWrapper*   pEchoStore;
     
 public:
     EchoDao()
     {
-        JsonHelper jh("../dao/EchoModule.json");
+        JsonHelper jh("../../conf/fast-cgi/EchoModule.json");
         string  host_    = jh.Root["EchoRedis"]["host"].GetString();
         int     port_    = jh.Root["EchoRedis"]["port"].GetInt();
         int     timeout_ = jh.Root["EchoRedis"]["timeout"].GetInt();
@@ -37,6 +39,10 @@ public:
         pEchoMysql = new MysqlWrapper(host, port,user, password, dbname,tablename);
         LOG(INFO)<<"EchoMysql host:"<<host<<" port:"<<port;
         LOG(INFO)<<"EchoMysql user:"<<user<<" password:"<<password<<" dbname:"<<dbname;
+        
+        pEchoStore = new StoreWrapper(host, port,user, password, dbname,tablename,
+                                    host_, port_, timeout_);
+        LOG(INFO)<<"Store inited";
     }
 
     ~EchoDao()
@@ -49,6 +55,11 @@ public:
         if (pEchoMysql) {
            delete pEchoMysql;
            pEchoMysql = NULL;
+        } 
+        
+        if (pEchoStore) {
+           delete pEchoStore;
+           pEchoStore = NULL;
         }
     }
     
@@ -72,6 +83,18 @@ public:
     int GetValueFromMysql(const string& key, T& t)
     {
         return pEchoMysql->getProto(key, t);
+    }
+    
+    template<class T>
+    int SetValueToStore(const string& key, const T& t)
+    {
+        return pEchoStore->setProto(key, t);
+    }
+    
+    template<class T>
+    int GetValueFromStore(const string& key, T& t)
+    {
+        return pEchoStore->getProto(key, t);
     }
 };
 

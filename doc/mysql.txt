@@ -1,0 +1,9 @@
+1、创建数据库，表（K-V组织）
+   create database xxx;
+   create table t_user(ukey varchar(64) not null primary key, udata blob, ts TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP);
+   
+2、权限方面
+	mysqld --defaults-file=/etc/my.cnf --user=root &
+	insert into mysql.user(Host,User,Password) values("10.104.14.214", "miugroup", password("momoli"));
+	grant all privileges on dbase_user.* to miugroup@10.104.14.214 identified by 'momoli';
+	flush privileges;

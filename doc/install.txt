@@ -1,3 +1,21 @@
 1.安装glog-0.3.3
     请先修改glog源码，参考base/glog_patch/README.txt
     ./configure && make && make install
+    
+2.安装protobuf
+
+3.安装fcgi
+
+4.安装spawn-fcgi
+
+5.安装hiredis
+
+6.安装mysqlclient
+
+7.安装nginx
+    启动FCGI管理器(启动之前请)
+    export LD_LIBRARY_PATH="/usr/local/lib64"
+    spawn-fcgi -a 127.0.0.1 -p 9000 -C 25 -f /data/fastcgi/test -F 1
+    启动Nginx
+    修改nginx配置
+    default.conf

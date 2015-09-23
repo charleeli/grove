@@ -13,6 +13,7 @@
 #include "Echo.h"
 #include "EchoRedis.h"
 #include "EchoMysql.h"
+#include "EchoStore.h"
 
 //注册命令
 int RegisterModuleList()
@@ -20,6 +21,7 @@ int RegisterModuleList()
 	FastCGI_FRAME->RegisterModule<Echo>("Echo");
 	FastCGI_FRAME->RegisterModule<EchoRedis>("EchoRedis");
 	FastCGI_FRAME->RegisterModule<EchoMysql>("EchoMysql");
+	FastCGI_FRAME->RegisterModule<EchoStore>("EchoStore");
     
     return 0;
 }

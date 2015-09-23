@@ -35,3 +35,14 @@ message EchoMysqlRsp
     optional string foo  = 1;
 }
 
+//Store回声测试 command = EchoStore
+message EchoStoreReq
+{
+    optional string foo  = 1;
+}
+
+message EchoStoreRsp
+{
+    optional string foo  = 1;
+}
+
