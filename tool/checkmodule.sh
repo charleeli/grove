@@ -1,16 +1,16 @@
 #!/bin/sh
-export LD_LIBRARY_PATH="/usr/local/lib64"
+export LD_LIBRARY_PATH="/usr/local/lib64":$LD_LIBRARY_PATH
 export LD_LIBRARY_PATH="/usr/local/lib":$LD_LIBRARY_PATH
-logPath=/data/app_log/crontab/
-listModule="AdminModule:19007:2 EchoModule:19006:2"
-listPort="6379 6381 6383"
+logPath=/usr/local/grove/tool
+listModule="EchoModule:19001:2 AdminModule:19002:2 "
+listPort="6379 6380 6381"
 check_cgi()
 {
 	if test $( pgrep -f $1 | wc -l ) -lt $3 
 	then
 		echo `date "+%G-%m-%d %H:%M:%S"` "restart $1...."  >> $logPath/check.log
 		killall $1
-		spawn-fcgi -a 127.0.0.1 -p $2 -C 25 -f /data/MiU/cgi-bin/$1 -F $3 >> $logPath/check.log
+		spawn-fcgi -a 127.0.0.1 -p $2 -C 25 -f /usr/local/grove/fast-cgi/$1 -F $3 >> $logPath/check.log
 	fi 
     return
 }
@@ -20,7 +20,7 @@ check_redis()
 	if test $( ps aux | grep redis-server | grep $1 | wc -l ) -eq 0 
 	then 
 		echo `date "+%G-%m-%d %H:%M:%S"` "restart redis($1)...."  >> $logPath/check.log
-		redis-server /etc/redis/redis$1.conf >> $logPath/check.log
+		redis-server /usr/local/grove/conf/redis_$1.conf >> $logPath/check.log
 	fi 
     return
 }
@@ -47,7 +47,7 @@ for j in $listModule; do
     modName=$(echo $j | awk -F":" '{print $1}')
 	modPort=$(echo $j | awk -F":" '{print $2}')
 	modNum=$(echo $j | awk -F":" '{print $3}')
-    if [ $num == "3" ]
+    if [ $num -eq 3 ]
     then
         check_cgi $modName $modPort $modNum
     fi

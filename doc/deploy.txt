@@ -1,0 +1,62 @@
+A.如何部署基于grove的应用？使用sudo权限
+
+配置文件放在grove工程的conf/ tool/
+redis部署目录结构如下：
+/var/log/redis/redis.log
+/var/run/redis/redis.pid
+
+grove部署目录结构如下：
+/usr/local/grove/
+                |--conf/
+                |       |--EchoModule.json
+                |
+                |--fast-cgi/
+                |       |--EchoModule
+                |
+                |--log/
+                |       |--EchoModule/
+                |                   |--info/
+                |                   |--warn/
+                |                   |--error/
+                |                   |--fatal/
+                |
+                |--tool/
+                        |--checkmodule.sh
+                        |--check.log
+                
+nginx部署目录结构如下：
+/usr/local/nginx/
+                |--conf/
+                |       |--nginx.conf
+                |
+                |--sbin/
+                |       |--nginx
+                |
+                |--logs/
+                |       |--nginx.pid
+                |       |--access.log
+                |       |--error.log
+                
+B.如何启动系统
+1.启动nginx
+    cd /usr/local/nginx/sbin
+    sudo ./nginx
+    
+2.启动fast-cgi
+    sudo spawn-fcgi -a 127.0.0.1 -p 19001 -C 1 -f /usr/local/grove/fast-cgi/EchoModule
+    
+3.客户端使用firefox的插件httprequester
+    http://119.29.81.103/EchoModule.cgi
+    {
+      "uid" : "32faa0581014ec2e16815c9d5be40bdb",
+      "command" : "Echo",
+      "plaintext" : "{\"foo\":\"bar\"}"
+    }
+    
+4.重启fast-cgi
+    killall EchoModule
+    cd /usr/local/grove/tool
+    sudo ./checkmodule.sh
+
+
+

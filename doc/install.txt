@@ -13,9 +13,5 @@
 6.安装mysqlclient
 
 7.安装nginx
-    启动FCGI管理器(启动之前请)
-    export LD_LIBRARY_PATH="/usr/local/lib64"
-    spawn-fcgi -a 127.0.0.1 -p 9000 -C 25 -f /data/fastcgi/test -F 1
-    启动Nginx
-    修改nginx配置
-    default.conf
+    使用默认安装
+    ./configure && make && make install

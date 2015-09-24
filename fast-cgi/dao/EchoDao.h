@@ -21,7 +21,7 @@ private:
 public:
     EchoDao()
     {
-        JsonHelper jh("../../conf/fast-cgi/EchoModule.json");
+        JsonHelper jh("/usr/local/grove/conf/EchoModule.json");
         string  host_    = jh.Root["EchoRedis"]["host"].GetString();
         int     port_    = jh.Root["EchoRedis"]["port"].GetInt();
         int     timeout_ = jh.Root["EchoRedis"]["timeout"].GetInt();

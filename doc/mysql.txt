@@ -1,5 +1,7 @@
 1、创建数据库，表（K-V组织）
    create database xxx;
+   
+   可选：
    create table t_user(ukey varchar(64) not null primary key, udata blob, ts TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP);
    
 2、权限方面

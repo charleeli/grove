@@ -36,7 +36,7 @@ int DestroyModuleList()
 int main(int argc, char ** argv)
 {
     //初始化日志
-    GLogHelper gh(SERVER_NAME,"./log/");
+    GLogHelper gh(SERVER_NAME,"/usr/local/grove/log/");
     //注册命令
     RegisterModuleList();
     LOG(INFO)<<"FastCGI running!";
