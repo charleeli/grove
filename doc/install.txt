@@ -2,7 +2,9 @@
     请先修改glog源码，参考base/glog_patch/README.txt
     ./configure && make && make install
     
-2.安装protobuf
+2.安装protobuf-cpp-3.0.0-alpha-2及以上版本
+    目前使用proto2,原因是proto3已经发布，但是仍然没有一个好的proto3转json的开源代码
+    ./configure && make && make install
 
 3.安装fcgi
 
