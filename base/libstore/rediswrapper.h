@@ -22,10 +22,6 @@ private:
     redisContext    *_pRedis;
     
 public:
-    RedisWrapper(): _pRedis(nullptr)
-    {
-    }
-
     RedisWrapper(const string& sHost, int port, int timeout) : _pRedis(nullptr)
     {
         initialize(sHost, port, timeout);
@@ -308,7 +304,7 @@ public:
     }
     
     template<typename T>
-    int setProtoFromHash(const string &hashtable, const string &key, T &v)
+    int setProtoToHash(const string &hashtable, const string &key, T &v)
     {
        
         string sCommand;
@@ -323,7 +319,7 @@ public:
         return 0;
     }
     
-    int push2queueTail(const string &key, const string &v)
+    int rpush(const string &key, const string &v)
     {
         string sCommand;
         sCommand = "RPUSH  "+key+" "+v;
@@ -337,7 +333,7 @@ public:
         return 0;
     }
   
-    bool isHashKeyExist(const string& hashtable, const string& key)
+    bool hashKeyExists(const string& hashtable, const string& key)
     {
         redisReply *r = (redisReply *)redisCommand(_pRedis,"HEXISTS  %s %s", hashtable.c_str(), key.c_str());
         if (_pRedis->err != 0 || r == NULL)
