@@ -1,8 +1,8 @@
 修改glog-0.3.3源码，按天 或者 小时滚动
     
     1.utilities.h中添加定义
-        bool DayHasChanged()；
-        bool HourHasChanged()；
+        bool DayHasChanged();
+        bool HourHasChanged();
     
     2.utilities.cc中添加定义
         static int32 g_main_day = 0;
