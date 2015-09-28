@@ -161,6 +161,7 @@ WallTime WallTime_Now();
 int32 GetMainThreadPid();
 bool PidHasChanged();
 bool DayHasChanged();
+bool HourHasChanged()；
 
 pid_t GetTID();
 

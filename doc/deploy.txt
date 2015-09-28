@@ -45,8 +45,8 @@ B.如何启动系统
 2.启动fast-cgi
     sudo spawn-fcgi -a 127.0.0.1 -p 19001 -C 1 -f /usr/local/grove/fast-cgi/EchoModule
     
-3.客户端使用firefox的插件httprequester
-    http://119.29.81.103/EchoModule.cgi
+3.客户端使用firefox的插件HttpRequester
+    http://127.0.0.1/EchoModule.cgi
     {
       "uid" : "32faa0581014ec2e16815c9d5be40bdb",
       "command" : "Echo",

@@ -60,7 +60,7 @@ public:
 			out = rspBody.SerializeAsString();
 		}
         
-        LOG(INFO)<<uid << "|" << reqBody.ShortDebugString() << "|" << rspBody.ShortDebugString();
+        //LOG(INFO)<<uid << "|" << reqBody.ShortDebugString() << "|" << rspBody.ShortDebugString();
         return 0;
     }
 };
