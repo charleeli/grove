@@ -7,13 +7,16 @@
     ./configure && make && make install
 
 3.安装fcgi
+    在/include/fcgio.h文件中加上 #include <cstdio>，然后再编译安装
 
 4.安装spawn-fcgi
 
 5.安装hiredis
 
 6.安装mysqlclient
+    sudo apt-get install libmysqlclient-dev
 
 7.安装nginx
+    安装pcre-8.36  zlib-1.2.8
     使用默认安装
     ./configure && make && make install
