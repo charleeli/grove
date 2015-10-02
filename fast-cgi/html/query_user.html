@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+
+<link rel="stylesheet" type="text/css" href="/admin/js/table_style.css">
+ 
+<script>
+	//提交的命令ID
+	var cmdID=10001;	
+</script> 
+	
+<script language= "javascript" src= "/admin/js/item_common.js"></script>	
+<script language= "javascript" src= "/admin/js/query_item_number.js"></script>
+<script language= "javascript" src= "/admin/js/item_number_common.js"></script>
+<script language= "javascript" src= "/admin/js/query_test.js"></script> 
+
+<title>Q宠大乐斗 基本数据</title>
+</head>
+<body bgcolor="#ebf5fb" onload="showConfirmClose(true);document.getElementById('uinInput').select()">
+<input type="hidden" id="uin" value="##uiUin##" />					<!-- 原始uin，不可见 -->
+
+<form id="queryuser" method="get" action="" onSubmit="showData();return false;">
+  	请输入您要查找的用户ID：
+	<input type="text"  id="uinInput" value="##uiUin##" />
+	<input id="ShowDataBt" type="button" onclick="showData()"  value="读取数据"/>
+</form>
+
+<p id="ChangedNumInfo">当前已修改<span class="STYLE_RED">0</span>项</p>
+<p>公式【（等级*2 + 9) - (力量值 + 敏捷值 + 速度值 + 武器数 + 技能数）】：
+    (##level##*2 + 9)-(##str_value## + ##agi_value## + ##speed_value## + ##weapon_num## + ##skill_num##)=##result_value##</p>
+
+<table width="100%" border="0" id="ItemTable" >							<!-- 显示可以修改的数据 --> 
+<!-- 表头标题 -->
+  <tr>
+	<th width="20%">属性名称</th>
+	<th width="80%">数据值
+		<input id="ResetAllRowBt" type="button" disabled="disabled" onclick="resetAllRow()" value="恢复全部"/>
+		<input name="button" type="button" disabled="disabled" id="SubmitDataBt" onclick="submitData(0)"  value="提交修改"/>
+	</th>
+  </tr>
+  
+  
+		 <!-- #BeginBlock TABLEDATA -->
+  <tr id="##ItemName##Row">
+	<th scope="row" id="##ItemName##">##ItemName##</th>						<!-- 属性名称 -->
+	<form  onSubmit="return false;" name="##ItemName##RowChangForm" >		<!-- 修改值，包含一个输入框，还有一个重置按钮 -->
+		<td align="center">
+		<input type="text" id="##ItemName##Changed" onKeypress="return checkNum('##ItemName##Changed',0,event);" style="ime-mode:Disabled" onkeyup="changeValue('##ItemName##',event)"  onChange="changeValue('##ItemName##')"   ##DISABLED## value="##ItemValue##" size="45"/>
+    	<input type="reset" disabled="disabled" id="##ItemName##ResetBt"  onclick="resetRow('##ItemName##')" value="恢复" />
+		<input type="hidden" id="##ItemName##Id" value="##ItemId##" />			<!-- 属性英文ID，不可见 -->		
+		<input type="hidden" id="##ItemName##Origin" value="##ItemValue##" />	<!-- 原始数据值，不可见 -->
+		</td>
+	</form>
+  </tr>
+		 <!-- #EndBlock TABLEDATA -->
+</table>
+<p></p>
+<iframe height="0" width="0" src="" id="subFrame" frameborder="0"></iframe>
+</body>
+</html>
