@@ -11,6 +11,9 @@ grove部署目录结构如下：
                 |       |--EchoModule.json
                 |
                 |--fast-cgi/
+		|	|--html/
+		|		|--index.html
+		|		|--query_user.html
                 |       |--EchoModule
                 |
                 |--log/

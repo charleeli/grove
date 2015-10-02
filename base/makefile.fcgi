@@ -26,19 +26,21 @@ INCLUDE     += 	-I. \
                 -I${BASEPATH} \
                 -I${BASEPATH}/codec \
                 -I${BASEPATH}/libstore \
+		-I${BASEPATH}/libweb \
                 -I${BASEPATH}/pattern \
                 -I${BASEPATH}/pbjson \
                 -I${BASEPATH}/rapidjson\
                 -I${ROOTPATH}/fast-cgi/dao\
                 -I${ROOTPATH}/fast-cgi/proto
 
-LIB  		:= 	-lprotobuf \
+LIB  		:=-lprotobuf \
                 -lpthread \
                 -lfcgi \
                 -lhiredis\
                 -lglog\
                 $(LIB)\
-                -L${ROOTPATH}/fast-cgi/proto -lproto
+                -L${ROOTPATH}/fast-cgi/proto -lproto\
+		-L${BASEPATH}/libweb -lweb
                 
 MYSQL_FILE  := /usr/local/include/mysql/mysql.h
 ifeq ($(MYSQL_FILE), $(wildcard $(MYSQL_FILE)))
@@ -102,12 +104,14 @@ $(PRO_REMOTE_H) $(PRO_REMOTE_CPP) : $(PRO_REMOTE_SRC)
 	@echo "protoc ${P2CPP_FLAG} "
 	rm -vf $(PRO_REMOTE_H) $(PRO_REMOTE_CPP) $(PRO_REMOTE_OBJ)
 	$(PRO2CPP) ${P2CPP_FLAG} --proto_path=$(dir $(PRO_REMOTE_SRC)) --cpp_out=../proto $(PRO_REMOTE_SRC)
-	cd ../proto && $(CXX) -m$(MFLAGS) $(CFLAGS) -c *.cc && ar crv libproto.a *.o 
+	cd ../proto && $(CXX) -m$(MFLAGS) $(CFLAGS) -c *.cc && ar crv libproto.a *.o
+	cd ../../base/libweb && make 
 endif
 
 clean:
 	rm -vf $(LOCAL_OBJ) $(TARGET) *~ .pb.* *.pb.* *.64.* *.d
 	cd ../proto && rm -vf *~ .pb.* *.pb.* *.a
+	cd ../../base/libweb && rm -vf *~ .pb.* *.pb.* *.a *.o 
 
 cleanall:
 	rm -vf $(LOCAL_OBJ) $(TARGET) $(PRO_REMOTE_H) $(PRO_REMOTE_CPP) *.d *.o
