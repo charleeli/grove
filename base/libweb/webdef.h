@@ -56,7 +56,7 @@ using namespace std;
 const int DEFAULT_MAX_SERIAL_NO = 10000;
 const int NO_LIMIT_SERIAL_NO = 0;
 extern   FCGX_Stream *fcgi_in, *fcgi_out, *fcgi_err;
-extern   FCGX_ParamArray fcgi_env;
+extern   FCGX_ParamArray fcgi_envp;
 #endif
 
 

@@ -78,9 +78,28 @@ int main ()
         //PrintEnv(fcgi_out, "Request environment", fcgi_envp);
         //PrintEnv(fcgi_out, "Initial environment", environ);
 
-	webpage page;
-	page.load("/usr/local/grove/fast-cgi/html/query_user.html");
-	page.output();
+	webparam param;
+	map<string, string> m_param = param.getparam();
+	map<string, string> m_cookie = param.getcookie();
+	map<string, string> m_env = param.getenv();
+	string m_param_content = param.get_cont();
+	string m_cookie_content = param.get_cookie();
+
+	if(m_param["command"] == "10001")
+	{
+		FCGX_FPrintF(fcgi_out,
+		"Content-type: text/html\r\n"
+		"\r\n"
+		"<title>FastCGI echo (fcgiapp version)</title>"
+		"<h1>FastCGI echo (fcgiapp version)</h1>\n"
+		"Request number %d,  Process ID: %d<p>\n", ++count, getpid());
+	}
+	else
+	{
+		webpage page;
+		page.load("/usr/local/grove/fast-cgi/html/query_user.html");
+		page.output();
+	}
     } /* while */
 
     return 0;

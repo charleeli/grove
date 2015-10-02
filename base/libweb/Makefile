@@ -6,7 +6,7 @@ FASTCGINC =
 
 TARGETS=libweb.a
 
-webobj=webparam.o webapp.o webpage.o webgeneral.o
+webobj=webparam.o webpage.o webgeneral.o
 
 all:$(TARGETS)
 	

@@ -35,7 +35,7 @@ webparam::webparam()
 void webparam::ParseEnv()
 {
 #ifdef WEBLIB_WITH_FASTCGI
-	char** envp = fcgi_env;
+	char** envp = fcgi_envp;
 #else
 	char** envp = environ;
 #endif
