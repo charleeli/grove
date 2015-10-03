@@ -79,10 +79,16 @@ int CmdHandler::runAll()
 	if (cmds_.find(m_param["command"]) == cmds_.end())
 	{
 		webpage page;
-		page.load("/usr/local/grove/fast-cgi/html/index.html");
+		page.load("/usr/local/grove/fast-cgi/html/login.html");
 		page.output();
 		return 0;
 	}
+
+	cmds_[m_param["command"]]->setEnvironment(m_param,
+						m_cookie,
+						m_env,
+						m_param_content,
+						m_cookie_content);
 
 	return cmds_[m_param["command"]]->handle();
 }

@@ -3,7 +3,7 @@ static const char rcsid[] = "$Id: echo-x.c,v 1.1 2001/06/19 15:06:17 robs Exp $"
 #endif /* not lint */
 
 #include "fcgi_config.h"
-
+#include "fcgiapp.h"
 #include <stdlib.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -18,14 +18,7 @@ static const char rcsid[] = "$Id: echo-x.c,v 1.1 2001/06/19 15:06:17 robs Exp $"
 #include <unistd.h>
 #endif
 
-#ifdef _WIN32
-#include <process.h>
-#else
 extern char **environ;
-#endif
-
-#include "fcgiapp.h"
-
 FCGX_Stream *fcgi_in, *fcgi_out, *fcgi_err;
 FCGX_ParamArray fcgi_envp;
 
@@ -34,12 +27,12 @@ FCGX_ParamArray fcgi_envp;
 #include "CmdHandler.h"
 
 //包含命令处理头文件
-#include "Echo.h"
+#include "Login.h"
 
 //注册命令
 int RegisterModuleList()
 {
-    FastCGI_FRAME->RegisterModule<Echo>("Echo");
+    FastCGI_FRAME->RegisterModule<Login>("Login");
     
     return 0;
 }
