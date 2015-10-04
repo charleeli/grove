@@ -1,20 +1,3 @@
-/*
- *	SOURCE£º	webparam.h
- *	COPYRIGHT£º	Tencent
- *	DATE£º		2006-10-24
- *	AUTHOR£º	chrislin
- *
- *	PURPOSE:	
- *		class for getting url param
- *
- *	DATA OBJ:
- *		1¡¢get data by post method or by get method
- *		2¡¢get data by cookie
- *
- *	RESULT:
- *		save to map<string, string>
- */
-
 #ifndef _WEB_PARAM_H_
 #define _WEB_PARAM_H_
 

@@ -1,9 +1,3 @@
-/*
- *	SOURCE£º	webpage.cpp
- *	DATE£º		2006-10-24
- *	AUTHOR£º	chrislin
- */
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

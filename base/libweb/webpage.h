@@ -1,8 +1,3 @@
-/*
- *	SOURCE£º	webpage.h
- *	DATE£º		2006-10-24
- *	AUTHOR£º	chrislin
- */
 #ifndef _WEB_PAGE_H_
 #define _WEB_PAGE_H_
 

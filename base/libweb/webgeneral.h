@@ -1,9 +1,3 @@
-/*
- *  SOURCE:		general.h
- *  DATE:		2006-6-26
- *  AUTHOR:		chrislin
- *	PURPOSE:	Í¨ÓÃº¯Êý
- */
 #ifndef _GENERAL_H_
 #define _GENERAL_H_
 

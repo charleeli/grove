@@ -1,16 +1,9 @@
-/*
- *  SOURCE:     general.h
- *  COPYRIGHT:  Tencent
- *  DATE:       2006-6-26
- *  AUTHOR:     chrislin
- */
-
 #include "webgeneral.h"
 #include "string.h"
 
 bool isDigitStr(const string str)
 {
-	if( 0 == str.length() ) return false;		//	空串认为不是数字串
+	if( 0 == str.length() ) return false;		
 
 	for(string::size_type i =0; i < str.size(); i++)
 		if(!isdigit(str[i]))

@@ -1,20 +1,3 @@
-/*
- *	SOURCE£º	webparam.cpp
- *	COPYRIGHT£º	Tencent
- *	DATE£º		2006-01-23
- *	AUTHOR£º	chrislin
- *
- *	PURPOSE:	
- *		class for getting url param
- *
- *	DATA OBJ:
- *		1¡¢get data by post method or by get method
- *		2¡¢get data by cookie
- *
- *	RESULT:
- *		save to map<string, string>
- */
-
 #include "webparam.h"
 #include <stdio.h>
 #include <string.h>
