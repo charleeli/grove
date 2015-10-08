@@ -24,7 +24,7 @@ message ReqHead
     optional string token = 2;      // 用户请求凭据，2小时更换一次
     optional uint32 platform = 3;   // 客户端平台
     optional string command = 4;    // 用户请求命令
-    optional bytes  ciphertext = 5; // pb数据
+    optional bytes  ciphertext = 5; // pb数据,用base64编码
     optional string plaintext = 6;  // json数据
 }
 
@@ -33,7 +33,7 @@ message RspHead
     optional sint32 errcode = 1;   // 服务返回的调用结果
     optional string errmsg = 2;     // 服务返回的错误提示语
     optional string command = 3;    // 服务返回的请求命令
-    optional bytes  ciphertext = 4; // 密文返回的内容，pb数据
+    optional bytes  ciphertext = 4; // 密文返回的内容，pb数据，用base64解码
     optional string plaintext = 5;  // 明文返回的数据，json数据
 }
 
