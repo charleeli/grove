@@ -1,22 +1,4 @@
-1.安装glog-0.3.3
-    请先修改glog源码，参考base/glog_patch/README.txt
-    ./configure && make && make install
-    
-2.安装protobuf-cpp-3.0.0-alpha-2及以上版本
-    目前使用proto2,原因是proto3已经发布，但是仍然没有一个好的proto3转json的开源代码
-    ./configure && make && make install
-
-3.安装fcgi
-    在/include/fcgio.h文件中加上 #include <cstdio>，然后再编译安装
-
-4.安装spawn-fcgi
-
-5.安装hiredis
-
-6.安装mysqlclient
-    sudo apt-get install libmysqlclient-dev
-
-7.安装nginx
+安装nginx
     安装pcre-8.36  zlib-1.2.8
     使用默认安装
     ./configure && make && make install
