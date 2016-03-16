@@ -11,7 +11,7 @@ class Command
 {
     protected:
         int checkToken(const ReqHead& head);
-	
+    
     public:
         inline Command() {};
         virtual ~Command() {};

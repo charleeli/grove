@@ -22,11 +22,11 @@ public:
     map<string, Command*>  cmds_;  
     //接收到的信息            
     char    buffer_[FastCGI_MAX_LENGTH];        
-	
+    
 private:
     //处理请求
     string handlePotocol(const string& request);
-	
+    
 public:
     //由main调用
     int runAll(string& content);
@@ -80,7 +80,7 @@ int CmdHandler::runAll(string& content)
 {
     int ret = 0;
     string msg = "";
-	
+    
     PROC_TRY_BEGIN
 
     //如果是GET请求
@@ -88,20 +88,20 @@ int CmdHandler::runAll(string& content)
     //如果是POST请求
     if (string(HTTP_METHOD) == string("POST"))
     {
-		//内容长度
-		char *plength = getenv("CONTENT_LENGTH");
-		if (plength != NULL && atoi(plength) < FastCGI_MAX_LENGTH)
-		{
-			//读入到buffer_
-			fread(buffer_, atoi(plength), 1, stdin);  
-			buffer_[atoi(plength)] = 0;
-			request = string(buffer_, atoi(plength));
-		}
+        //内容长度
+        char *plength = getenv("CONTENT_LENGTH");
+        if (plength != NULL && atoi(plength) < FastCGI_MAX_LENGTH)
+        {
+            //读入到buffer_
+            fread(buffer_, atoi(plength), 1, stdin);  
+            buffer_[atoi(plength)] = 0;
+            request = string(buffer_, atoi(plength));
+        }
     }
 
     //处理请求，讲content引用出去
     content = handlePotocol(request);
-	
+    
     PROC_TRY_END(msg, ret, -1, -1)
     return ret;
 }
@@ -120,8 +120,8 @@ string CmdHandler::handlePotocol(const string& request)
     RspHead  rsp;
 
     PROC_TRY_BEGIN
-	
-	//将request json转化为pb
+    
+    //将request json转化为pb
     string err;
     json2pb(request, &req, err);
     
@@ -142,16 +142,16 @@ string CmdHandler::handlePotocol(const string& request)
 
     //处理请求，输入输出都是序列化后的PB字符串
     string out;
-	if(!req.plaintext().empty())
-	{
-		iErrCode = cmds_[req.command()]->handle(req.plaintext(), out);
-		rsp.set_plaintext(out);
-	}
-	else
-	{
-    	iErrCode = cmds_[req.command()]->handle(req.ciphertext(), out);
-		rsp.set_ciphertext(out);
-	}
+    if(!req.plaintext().empty())
+    {
+        iErrCode = cmds_[req.command()]->handle(req.plaintext(), out);
+        rsp.set_plaintext(out);
+    }
+    else
+    {
+        iErrCode = cmds_[req.command()]->handle(req.ciphertext(), out);
+        rsp.set_ciphertext(out);
+    }
 
     if (iErrCode != 0)
     {
@@ -167,7 +167,7 @@ string CmdHandler::handlePotocol(const string& request)
     pb2json(&rsp, response);
     if (iRetCode != 0)
     {
-    	LOG_INFO<<iRetCode << "|" << iErrCode << "|" << sErrCode << "|" << request << "|" << response;
+        LOG_INFO<<iRetCode << "|" << iErrCode << "|" << sErrCode << "|" << request << "|" << response;
     }
 
     return response;

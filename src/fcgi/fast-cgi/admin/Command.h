@@ -9,38 +9,38 @@ using namespace std;
 class Command
 {
     protected:
-	map<string, string> m_param ;
-	map<string, string> m_cookie ;
-	map<string, string> m_env ;
-	string m_param_content  ;
-	string m_cookie_content ;
+    map<string, string> m_param ;
+    map<string, string> m_cookie ;
+    map<string, string> m_env ;
+    string m_param_content  ;
+    string m_cookie_content ;
 
     public:
         inline Command() {};
         virtual ~Command() {};
-	void setEnvironment(map<string, string>&,
-				map<string, string>&,
-				map<string, string>&,
-				string&,
-				string&);
+    void setEnvironment(map<string, string>&,
+                map<string, string>&,
+                map<string, string>&,
+                string&,
+                string&);
 
-	virtual void initialize();
-	virtual void destroy();
-	virtual int parse() = 0;
-	virtual int handle() = 0;
+    virtual void initialize();
+    virtual void destroy();
+    virtual int parse() = 0;
+    virtual int handle() = 0;
 };
 
 void Command::setEnvironment(map<string, string> &param,
-				map<string, string> &cookie,
-				map<string, string> &env,
-				string &param_content,
-				string &cookie_content)
+                map<string, string> &cookie,
+                map<string, string> &env,
+                string &param_content,
+                string &cookie_content)
 {
-	m_param = param;
-	m_cookie = cookie;
-	m_env = env;
-	m_param_content = param_content;
-	m_cookie_content = cookie_content;
+    m_param = param;
+    m_cookie = cookie;
+    m_env = env;
+    m_param_content = param_content;
+    m_cookie_content = cookie_content;
 }
 
 void Command::initialize()

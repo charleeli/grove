@@ -77,7 +77,7 @@ int main ()
             FCGX_FPrintF(fcgi_out, "\n</pre><p>\n");
         }
 
-	FastCGI_FRAME->runAll();
+    FastCGI_FRAME->runAll();
     } /* while */
 
     //删除命令

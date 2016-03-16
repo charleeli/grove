@@ -70,27 +70,27 @@ public:
 int CmdHandler::runAll()
 {
     webparam param;
-	map<string, string> m_param = param.getparam();
-	map<string, string> m_cookie = param.getcookie();
-	map<string, string> m_env = param.getenv();
-	string m_param_content = param.get_cont();
-	string m_cookie_content = param.get_cookie();
+    map<string, string> m_param = param.getparam();
+    map<string, string> m_cookie = param.getcookie();
+    map<string, string> m_env = param.getenv();
+    string m_param_content = param.get_cont();
+    string m_cookie_content = param.get_cookie();
 
-	if (cmds_.find(m_param["command"]) == cmds_.end())
-	{
-		webpage page;
-		page.load("/usr/local/grove/fast-cgi/html/login.html");
-		page.output();
-		return 0;
-	}
+    if (cmds_.find(m_param["command"]) == cmds_.end())
+    {
+        webpage page;
+        page.load("/usr/local/grove/fast-cgi/html/login.html");
+        page.output();
+        return 0;
+    }
 
-	cmds_[m_param["command"]]->setEnvironment(m_param,
-		m_cookie,
-		m_env,
-		m_param_content,
-		m_cookie_content);
+    cmds_[m_param["command"]]->setEnvironment(m_param,
+        m_cookie,
+        m_env,
+        m_param_content,
+        m_cookie_content);
 
-	return cmds_[m_param["command"]]->handle();
+    return cmds_[m_param["command"]]->handle();
 }
 
 #endif

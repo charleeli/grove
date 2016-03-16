@@ -36,29 +36,29 @@ public:
         EchoRsp rspBody;
         
         if(is_plaintext)
-		{
-			string err;
+        {
+            string err;
             json2pb(in, &reqBody, err);
-		}
-		else
-		{
-			if (!reqBody.ParseFromString(in))
-		    {
-		        LOG(INFO)<<uid << " parse fail";
-		        return ERR_PARSE_FAIL;
-		    }
-		}
+        }
+        else
+        {
+            if (!reqBody.ParseFromString(in))
+            {
+                LOG(INFO)<<uid << " parse fail";
+                return ERR_PARSE_FAIL;
+            }
+        }
         
         rspBody.set_foo(reqBody.foo());
     
         if(is_plaintext)
-		{
-        	pb2json(&rspBody, out);
-		}
-		else
-		{
-			out = rspBody.SerializeAsString();
-		}
+        {
+            pb2json(&rspBody, out);
+        }
+        else
+        {
+            out = rspBody.SerializeAsString();
+        }
         
         //LOG(INFO)<<uid << "|" << reqBody.ShortDebugString() << "|" << rspBody.ShortDebugString();
         return 0;

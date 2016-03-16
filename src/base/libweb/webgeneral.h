@@ -34,8 +34,8 @@ void mSleep(unsigned int  nMilliSecond);
 string htmlFilter(string sText, int iFlag = 0);
 
 void setCookie( string name, string value, 
-			string expires, string path , 
-			string domain, short secure = 0);
+            string expires, string path , 
+            string domain, short secure = 0);
 
 void doRedirect(string sURL);
 

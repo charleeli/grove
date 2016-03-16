@@ -11,52 +11,52 @@ using namespace std;
 class webparam
 {
 public:
-	webparam();	
+    webparam(); 
 
-	const map<string, string>& getparam() const
-	{
-		return m_Params;
-	}
+    const map<string, string>& getparam() const
+    {
+        return m_Params;
+    }
 
-	const map<string, string>& getcookie() const
-	{
-		return m_cookie;
-	}
+    const map<string, string>& getcookie() const
+    {
+        return m_cookie;
+    }
 
-	const map<string, string>& getenv() const
-	{
-		return m_env;
-	}
+    const map<string, string>& getenv() const
+    {
+        return m_env;
+    }
 
-	const string& get_cont() const {return m_strContent;}
+    const string& get_cont() const {return m_strContent;}
 
-	const string& get_cookie() const {return m_strCookies;}
+    const string& get_cookie() const {return m_strCookies;}
 
-	std::string& ParamFilter(const char * context, std::string & ret_value, bool is_html = true);
+    std::string& ParamFilter(const char * context, std::string & ret_value, bool is_html = true);
 
 
-	
+    
 protected:
-	inline string GetRequestMethod();
-	
-	void GetCgiValue();
-	
-	void ParseParams();
+    inline string GetRequestMethod();
+    
+    void GetCgiValue();
+    
+    void ParseParams();
 
-	void ParseCookies();
+    void ParseCookies();
 
-	void ParseEnv();
+    void ParseEnv();
 
-	string UrlDecode(const string strSrc);
+    string UrlDecode(const string strSrc);
 
-	int HexToInt(char ch);
+    int HexToInt(char ch);
 
 protected:
-	string 					m_strContent;
-	string 					m_strCookies;
-	map<string, string> 	m_Params;
-	map<string, string>		m_cookie;
-	map<string, string>	    m_env;
+    string                  m_strContent;
+    string                  m_strCookies;
+    map<string, string>     m_Params;
+    map<string, string>     m_cookie;
+    map<string, string>     m_env;
 };
 
 
