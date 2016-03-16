@@ -20,3 +20,5 @@ common
 .gitignore
 *.pb.cc
 *.pb.h
+src/depends/
+src/_tmp/
